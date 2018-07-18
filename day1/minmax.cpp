@@ -4,16 +4,21 @@ using namespace std;
 
 int main() {
     int n, x;
-    int max = 1 << (sizeof(int) * 8);
-    int min = 1 << (sizeof(int) * 8 - 1);
+    int max, min;
     cout << "Enter number of elements: ";
     cin >> n;
-    for (int i = 0; i < n; i++) {
+    if (n < 1) {
+        cout << "Invalid size\n";
+        return 1;
+    }
+    cin >> x;
+    min = max = x;
+    for (int i = 1; i < n; i++) {
         cin >> x;
         if (x > max) {
             max = x;
         }
-        if (x < min) {
+        else if (x < min) {
             min = x;
         }
     }
