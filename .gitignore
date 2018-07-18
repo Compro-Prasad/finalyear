@@ -1,0 +1,6 @@
+.ccls-cache
+*.out
+*.gcov
+*.gcda
+*.gcno
+*.o
