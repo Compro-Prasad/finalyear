@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+#  LeastCost
+#-------------
+# Input:
+# 3
+# 4
+# 10 15 15 20
+# 20 25 15
+# 10 0 20 11
+# 12 7 9 20
+# 0 14 16 18
+
 
 import random
 
@@ -32,17 +43,20 @@ while demand_count > 0 and supply_count > 0:
     min_y = 0
     for i in range(len(costs)):
         for j in range(len(costs[i])):
-            if (costs[i][j] > 0 and min_cost > costs[i][j]):
+            if (costs[i][j] >= 0 and min_cost > costs[i][j]):
                 min_cost = costs[i][j]
                 min_x = j
                 min_y = i
     min_ = min(demand[min_x], supply[min_y])
     demand[min_x] -= min_
     supply[min_y] -= min_
-    total_cost += min_cost * costs[min_y][min_x]
-    print(min_cost, costs[min_y][min_x])
-    print(demand)
-    print(supply)
+    total_cost += min_cost * min_
+    #print(min_cost, min_)
+    #print(demand)
+    #print(supply)
+    #print(min_y, min_x)
+    #for i in costs:
+    #    print(i)
     if (demand[min_x] == 0):
         for i in range(len(costs)):
             costs[i][min_x] = -1
@@ -54,6 +68,6 @@ while demand_count > 0 and supply_count > 0:
     #costs = t1
     #demand = t2
     #supply = t3
-    print(total_cost)
+    #print(total_cost)
 
 print("Total cost:", total_cost)
