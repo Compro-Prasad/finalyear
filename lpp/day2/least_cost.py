@@ -39,9 +39,10 @@ while demand_count > 0 and supply_count > 0:
     min_ = min(demand[min_x], supply[min_y])
     demand[min_x] -= min_
     supply[min_y] -= min_
-    #print(min_x, ", ", min_y)
+    total_cost += min_cost * costs[min_y][min_x]
+    print(min_cost, costs[min_y][min_x])
     print(demand)
-    #print(supply)
+    print(supply)
     if (demand[min_x] == 0):
         for i in range(len(costs)):
             costs[i][min_x] = -1
@@ -50,10 +51,9 @@ while demand_count > 0 and supply_count > 0:
         for i in range(len(costs[min_y])):
             costs[min_y][i] = -1
         supply_count -= 1
-    total_cost += min_cost * costs[min_y][min_x]
-    costs = t1
-    demand = t2
-    supply = t3
-    #print(costs)
+    #costs = t1
+    #demand = t2
+    #supply = t3
+    print(total_cost)
 
 print("Total cost:", total_cost)
