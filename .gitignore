@@ -4,3 +4,4 @@
 *.gcda
 *.gcno
 *.o
+/algo/day3/interval-scheduling
