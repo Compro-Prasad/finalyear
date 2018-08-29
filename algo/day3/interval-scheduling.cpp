@@ -9,25 +9,25 @@ int main() {
   cout << "Enter number of lectures: ";
   cin >> lecture_count;
   cout << "Enter lecture intervals: ";
-  vector<pair<int, int>> lecture_intervals(lecture_count);
+  vector<pair<int, pair<int, int>>> intervals(lecture_count);
   for (int i = 0; i < lecture_count; i++) {
-    int start, end;
-    cin >> start >> end;
-    lecture_intervals[i] = pair<int, int>(end, start);
+    int start, end, priority;
+    cin >> start >> end >> priority;
+    intervals[i] = make_pair(priority, make_pair(start, end));
   }
 
-  sort(lecture_intervals.begin(), lecture_intervals.end());
+  sort(intervals.rbegin(), intervals.rend());
 
   int end = 0;
 
   cout << "\nSelected lectures in the given class are:\n";
 
-  for (int i = 0; i < lecture_intervals.size(); i++) {
+  for (int i = 0; i < intervals.size(); i++) {
 
-    if (lecture_intervals[i].second >= end) {
-      end = lecture_intervals[i].first;
-      cout << lecture_intervals[i].second << ' '
-           << lecture_intervals[i].first << endl;
+    if (intervals[i].second.first >= end) {
+      end = intervals[i].second.second;
+      cout << intervals[i].second.first << ' '
+           << intervals[i].second.second << endl;
     }
 
   }
