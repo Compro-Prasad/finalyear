@@ -1,3 +1,5 @@
+// Learn: https://www.cousera.org/lecture/algorithms-part2/kruskals-algorithm-KMCRd
+
 #include <vector>
 #include <iostream>
 
