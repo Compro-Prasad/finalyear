@@ -19,7 +19,7 @@ def get_an_occupied_cell(allocs, i, j):
     except IndexError:
         pass
     try:
-        if (allocs[i][j-1] == ):
+        if (allocs[i][j-1] != 0):
             return i, j-1
     except IndexError:
         pass
@@ -83,7 +83,7 @@ def get_uv(costs, allocs):
         for x, y in coordinates:
             if not isnan(u[x]) and isnan(v[y]):
                 v[y] = costs[x][y] - u[x]
-            else if isnan(u[x]) and not isnan(v[y]):
+            elif isnan(u[x]) and not isnan(v[y]):
                 u[x] = costs[x][y] - v[y]
         if stopLoopCount % 100 == 0:
             ans = input("Loop ran for {0} times. Do you want to continue? [y] ".format(stopLoopCount))
@@ -102,4 +102,24 @@ def isValid(costs, allocs, u, v):
                 if x < min_val:
                     min_val = x
                     min_x, min_y = i, j
-    return min_x, min_y
+    if (min_val < 0):
+        return min_x, min_y
+    else:
+        return -1, -1
+
+if __name__ == '__main__':
+    costs = []
+    allocs = []
+    rows_count = int(input("Enter rows: "))
+    for i in range(rows_count):
+        costs.append(list(map(int, input().split())))
+    for i in range(rows_count):
+        allocs.append(list(map(int, input().split())))
+
+    u, v = get_uv(costs, allocs)
+    x, y = isValid(costs, allocs, u, v)
+    while x != -1 and y != -1:
+        cycle_coordinates = create_cycle(allocs, x, y)
+        modify_cycle(allocs, cycle_coordinates)
+        u, v = get_uv(costs, allocs)
+        x, y = isValid(costs, allocs, u, v)
