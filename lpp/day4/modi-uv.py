@@ -53,15 +53,53 @@ def modify_cycle(allocs, cycle_coordinates):
         else:
             t = 1
 
+def get_all_allocated_coordinates(allocs):
+    coordinates = []
+    for i in range(len(allocs)):
+        for j in range(len(allocs[0])):
+            if allocs[i][j] > 0:
+                coordinates.append((i, j))
+    return coordinates
+
+def isAnyNan(l):
+    for i in l:
+        if isnan(i):
+            return True
+    return False
+
 def get_uv(costs, allocs):
-    u = [0]
+    u = []
     v = []
+    for i in costs:
+        u.append(float('nan'))
+        if len(v) == 0:
+            for j in costs[0]:
+                v.append(float('nan'))
+    u[0] = 0
+    coordinates = get_all_allocated_coordinates(allocs)
+    stopLoopCount = 0
+    while isAnyNan(u) or isAnyNan(v):
+        stopLoopCount += 1
+        for x, y in coordinates:
+            if not isnan(u[x]) and isnan(v[y]):
+                v[y] = costs[x][y] - u[x]
+            else if isnan(u[x]) and not isnan(v[y]):
+                u[x] = costs[x][y] - v[y]
+        if stopLoopCount % 100 == 0:
+            ans = input("Loop ran for {0} times. Do you want to continue? [y] ".format(stopLoopCount))
+            if ans != 'y':
+                break
+    return u, v
+
+def isValid(costs, allocs, u, v):
+    min_val = 1000000000000000
+    min_x = -1
+    min_y = -1
     for i in range(len(costs)):
         for j in range(len(costs[0])):
-            try:
-                if (allocs[i][j] != 0):
-                    v.append(u[i])
-                else if not isnan(v[j]):
-                    pass
-            except IndexError:
-                v.append(v[j])
+            if allocs[i][j] == 0:
+                x = costs[i][j] - u[i] - v[j]
+                if x < min_val:
+                    min_val = x
+                    min_x, min_y = i, j
+    return min_x, min_y
