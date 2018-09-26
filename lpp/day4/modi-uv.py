@@ -28,11 +28,13 @@ def get_an_occupied_cell(allocs, i, j):
 def create_cycle(allocs, neg_i, neg_j):
     cycle_coordinates = []
     i, j = get_an_occupied_cell(allocs, neg_i, neg_j)
-    while i != neg_i and j != neg_j:
+    print("@", i, j)
+    while i != neg_i or j != neg_j:
         if i == -1 or j == -1:
             raise Exception("Couldn't find another cell")
         cycle_coordinates.append((i, j))
         i, j = get_an_occupied_cell(allocs, i, j)
+    print("%", cycle_coordinates)
     return cycle_coordinates
 
 def get_min_in_cycle(allocs, cycle_coordinates):
@@ -95,10 +97,12 @@ def isValid(costs, allocs, u, v):
     min_val = 1000000000000000
     min_x = -1
     min_y = -1
+    #print(u, v)
     for i in range(len(costs)):
         for j in range(len(costs[0])):
             if allocs[i][j] == 0:
                 x = costs[i][j] - u[i] - v[j]
+                #print('#', x, i, j)
                 if x < min_val:
                     min_val = x
                     min_x, min_y = i, j
@@ -121,5 +125,16 @@ if __name__ == '__main__':
     while x != -1 and y != -1:
         cycle_coordinates = create_cycle(allocs, x, y)
         modify_cycle(allocs, cycle_coordinates)
+        print("  ##  ")
+        print(u, v)
+        print(x, y)
+        print(cycle_coordinates)
+        print(allocs)
+        print("  ##  ")
+        ans = input("Continue? [y]")
+        if ans != 'y':
+            break
         u, v = get_uv(costs, allocs)
         x, y = isValid(costs, allocs, u, v)
+
+    print(allocs)
