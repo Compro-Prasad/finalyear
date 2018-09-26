@@ -6,7 +6,7 @@
 
 # Example:
 #  Input:
-#   character
+#   characterbbabbchgrgcter
 #  Output:
 #   carac
 
