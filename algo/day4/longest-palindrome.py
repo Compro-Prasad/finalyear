@@ -10,35 +10,38 @@
 #  Output:
 #   carac
 
-def find_next_match(x, i, y, j):
-    while i < len(x):
-        k = j
-        while k < len(y):
-            if (x[i] == y[k]):
-                print(x, i, y, k)
-                return i, k
-            k += 1
-        i += 1
-
-def longest_common_substring(x, y):
-    i = 0
-    j = 0
-    z = ""
-    while i < len(x) and j < len(y):
-        m, n = find_next_match(x, i, y, j)
-        b, a = find_next_match(y, i, x, j)
-        if i > a:
-            i, j = a, b
+def longest_common_subsequence(x, y):
+    lenx = len(x) + 1
+    leny = len(y) + 1
+    matrix = []
+    for i in range(leny):
+        matrix += [[0] * lenx]
+    for i in range(1, leny):
+        for j in range(1, lenx):
+            if x[j - 1] == y[i - 1]:
+                matrix[i][j] = matrix[i - 1][j - 1] + 1
+            else:
+                matrix[i][j] = max(matrix[i - 1][j], matrix[i][j - 1])
+    for m in matrix:
+        print(m)
+    i = lenx - 1
+    j = leny - 1
+    a = ""
+    while i != 0 and j != 0:
+        if x[i - 1] == y[j - 1]:
+            a += x[i - 1]
+            i -= 1
+            j -= 1
         else:
-            i, j = m, n
-        z += x[i]
-        i += 1
-        j += 1
-    return z
+            if matrix[j][i - 1] > matrix[j - 1][i]:
+                i -= 1
+            else:
+                j -= 1
+    return a
 
 def get_palindrome_subsequence(s):
     rev_s = s[::-1]
-    return longest_common_substring(s, rev_s)
+    return longest_common_subsequence(rev_s, s)
 
 if __name__ == '__main__':
     s = input("Enter a string: ")
