@@ -8,36 +8,13 @@
 #   III 40   2    10   5
 #   IV  -5   4    11   0
 
-cost = []
 rows = int(input("Enter number of strategies: "))
-for i in range(rows):
-    cost.append(list(map(int, input().split())))
+cost = [list(map(int, input().split())) for i in range(rows)]
 
-row_min = []
-for i in range(rows):
-    min = cost[i][0]
-    for j in range(1, rows):
-        if min > cost[i][j]:
-            min = cost[i][j]
-    row_min.append(min)
+row_min = map(min, cost)
+col_max = map(max, zip(*cost))
 
-col_max = []
-for i in range(rows):
-    max = cost[0][i]
-    for j in range(1, rows):
-        if max < cost[j][i]:
-            max = cost[j][i]
-    col_max.append(max)
+min_max = max(row_min)
+max_min = min(col_max)
 
-min_max = row_min[0]
-max_min = col_max[0]
-for i in range(1, rows):
-    if row_min[i] > min_max:
-        min_max = row_min[i]
-    if col_max[i] < max_min:
-        max_min = col_max[i]
-
-if min_max == max_min:
-    print(min_max)
-else:
-    print("You failed")
+print(min_max if min_max == max_min else "Error")
